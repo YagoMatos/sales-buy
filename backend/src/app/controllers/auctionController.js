@@ -8,10 +8,9 @@ const router = express.Router();
 const Auction = require('../models/auction');
 
 router.post('/register', async (req, res) => {
-    const { itemId } = req.body;
 
     try {
-        if (await Auction.findOne({ itemId }))
+        if (await Auction.findOne({ itemId: req.params.itemId }))
             return res.status(400).send({ error: 'Produto em Leilão já Criado' });
 
         const auction = await Auction.create(req.body);
@@ -36,10 +35,20 @@ router.delete('/:auctionId', async (req, res) => {
 router.put('/:auctionId', async (req, res) => {
     try {
 
-        const { closeAt, value, participantName, participantId, isOpen } = req.body;
+        const { 
+            closeAt, 
+            value, 
+            participantName, 
+            participantId, 
+            isOpen, 
+            itemId, 
+            itemDescription,
+            itemName, 
+            isAuction, 
+            salesman } = req.body;
         
         const auction = await Auction.findByIdAndUpdate(req.params.auctionId, {
-            closeAt, value, participantName, participantId, isOpen
+            closeAt, value, participantName, participantId, isOpen,  itemId, itemName, salesman, isAuction, itemDescription
         }, {new: true });
 
         return res.send({ auction })

@@ -7,9 +7,17 @@ const AuctionSchema = new mongoose.Schema({
     participantName: {
         type: String,
     },
+    itemDescription: {
+        type: String,
+        require: true,
+    },
     itemId: {
         type: String,
-        require: false,
+        require: true,
+    },
+    itemName: {
+        type: String,
+        require: true,
     },
     createdAt: {
         type: Date,
@@ -24,6 +32,10 @@ const AuctionSchema = new mongoose.Schema({
     },
     value: {
         type: Number,
+        require: true,
+    },
+    salesman: {
+        type: String,
         require: true,
     }
 });
