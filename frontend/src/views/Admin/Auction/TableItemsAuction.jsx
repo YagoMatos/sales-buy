@@ -51,13 +51,14 @@ class TableItemsAble extends Component {
         const title = this.state.title;
         const description = this.state.description;
         const isAble = true;
+        const isAuction = false;
     
         const item = {
             value,
             salesman,
             title,
             description,
-            isAuction: false,
+            isAuction,
             itemId,
             isAble
         };

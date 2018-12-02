@@ -36,12 +36,16 @@ class ModalSchedule extends React.Component {
     const value = this.state.value;
     const salesman = this.state.salesman;
     const description = this.state.description;
+    const isAble = true;
+    const isAuction = true;
 
     const item = {
         value,
         salesman,
         title,
-        description
+        description,
+        isAuction,
+        isAble
     };
   
     console.log(item);

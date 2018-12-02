@@ -112,6 +112,7 @@ class Auction extends Component {
                                     value={auc.value}
                                     description={auc.itemDescription}
                                     id={auc._id}
+                                    idItem={auc.itemId}
                                     isAuction={auc.isAuction}
                                     clicked={() => this.itemClicked(auc._id)}
                                 />

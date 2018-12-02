@@ -23,7 +23,7 @@ class TableItemsAble extends Component {
         value: this.props.value,
         salesman: this.props.salesman,
         description: this.props.description,
-        id: this.props.id
+        id: this.props.id,
     };
     
     toggle() {
@@ -56,8 +56,8 @@ class TableItemsAble extends Component {
         })
     }
     
-    deleteAuction(id){
-
+    deleteAuction(idAuct){
+        console.log(id)
         const value = this.state.value;
         const salesman = this.state.salesman;
         const itemId = this.state.id;
@@ -65,6 +65,7 @@ class TableItemsAble extends Component {
         const description = this.state.description;
         const isAble = true;
         const isAuction = true;
+        const id = this.props.idItem;
     
         const item = {
             value,
@@ -72,18 +73,19 @@ class TableItemsAble extends Component {
             title,
             description,
             isAuction,
-            itemId,
-            isAble
+            isAble,
         };
 
-        axios.delete(`http://localhost:3004/auction/${id}`)
+        console.log(item);
+
+        axios.delete(`http://localhost:3004/auction/${idAuct}`)
         .then(response => {
             console.log(response.data);
         })
-        axios.put(`http://localhost:3004/item/${itemId}`, item)
+        axios.put(`http://localhost:3004/item/${id}`, item)
         .then(response => {
             alert("sucess");
-            window.location = "auction"
+            //window.location = "auction"
             console.log(response.data);
         })
     }
