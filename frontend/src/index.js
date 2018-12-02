@@ -9,7 +9,6 @@ import "./assets/demo/demo.css";
 import "./assets/css/auth.css";
 
 import indexRoutes from "./routes/index.jsx";
-import adminRoutes from "./routes/admin.jsx";
 
 const hist = createBrowserHistory();
 

@@ -1,41 +1,26 @@
-import Dashboard from "../views/Dashboard/Dashboard.jsx";
-import Schedule from "../views/Schedule/Schedule.jsx";
-import PatientPage from "../views/UserPage/PatientPage.jsx";
-import RegisterPage from "../views/UserPage/RegisterPage.jsx";
-import SearchPage from "../views/UserPage/SearchPage.jsx";
-import PersonPage from "../views/UserPage/PersonPage.jsx";
+import Admin from "../views/Admin/Admin/Admin.jsx";
+import Item from "../views/Admin/Item/Item.jsx";
+import Auction from "../views/Admin/Auction/Auction.jsx";
 
-var dashRoutes = [
+var adminRoutes = [
   {
-    path: "/dashboard",
+    path: "/admin",
     name: "Menu",
     icon: "nc-icon nc-bank",
-    component: Dashboard
+    component: Admin
   },
   {
-    path: "/schedule",
-    name: "agenda",
+    path: "/auction",
+    name: "Leilão",
     icon: "nc-icon nc-calendar-60",
-    component: Schedule
+    component: Auction
   },
   {
-    path: "/user-page",
-    name: "Pacientes",
+    path: "/item",
+    name: "Estoque",
     icon: "nc-icon nc-single-02",
-    component: PatientPage
+    component: Item
   },
-  {
-    path: "/patient-register",
-    component: RegisterPage
-  },
-  {
-    path: "/patient-search",
-    component: SearchPage
-  },
-  {
-    path: "/patient",
-    component: PersonPage
-  },
-  { redirect: true, path: "/", pathTo: "/dashboard", name: "Dashboard" }
+  { redirect: true, path: "/", pathTo: "/admin", name: "Admin" }
 ];
-export default dashRoutes;
+export default adminRoutes;

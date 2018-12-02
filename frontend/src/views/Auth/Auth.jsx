@@ -17,7 +17,7 @@ import {
 
 import Button from "../../components/CustomButton/CustomButton.jsx";
 
-  import { Route, Redirect } from "react-router-dom";
+  import { Route, Redirect, Link } from "react-router-dom";
 import Dashboard from '../../layouts/Dashboard/Dashboard';
 
 
@@ -25,6 +25,7 @@ class Auth extends Component {
     state = {
         email: '',
         password: '',
+        logged: ''
     }
 
     handleEmail(e){
@@ -40,6 +41,7 @@ class Auth extends Component {
     }
 
     login(){
+        localStorage.clear();
         const email = this.state.email;
         const password = this.state.password;
 
@@ -57,11 +59,11 @@ class Auth extends Component {
                 const auctioneer = response.data.auctioneer;
                 if (auctioneer){
                     alert('sucesso');
+                
                 } 
                 else {
                     alert(result);
                 }
-
             }).catch((error) => alert("Sorry"));
     }
     
@@ -122,6 +124,10 @@ class Auth extends Component {
                         </Card>
                     </Col>
                 </Row>
+
+
+        
+                
             </div>
         )
     }
