@@ -1,0 +1,14 @@
+.content-login{
+    background-color: #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+}
+
+.title-auth{
+    font-size: 10pt;
+    display: flex;
+    margin-top: 5em;
+
+}

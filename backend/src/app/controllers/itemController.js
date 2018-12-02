@@ -35,10 +35,10 @@ router.get('/', async (req, res) => {
 
 router.put('/:itemId', async (req, res) => {
     try {
-        const { description, value, title, salesman } = req.body;
+        const { description, value, title, salesman, isAble, isAuction } = req.body;
 
         const item = await Item.findByIdAndUpdate(req.params.itemId, {
-            description, value, title, salesman
+            description, value, title, salesman, isAble, isAuction
         }, {new: true });
 
         return res.send({ item })
@@ -51,6 +51,38 @@ router.put('/:itemId', async (req, res) => {
 router.delete('/:itemId', async (req, res) => {
     try {
         const item = await Item.findByIdAndRemove({_id: req.params.itemId});
+
+        return res.send({ item })
+    } catch (err){
+        return res.status(400).send({ error: 'Tente mais tarde'})
+    }
+});
+
+router.get('/open', async (req, res) => {
+    try {
+        const item = await Item.find({ isAble: true });
+
+        return res.send({ item })
+    } catch (err){
+        return res.status(400).send({ error: 'Tente mais tarde'})
+    }
+});
+
+
+router.get('/avaliable', async (req, res) => {
+    try {
+        const item = await Item.find({ isAuction: true });
+        
+        return res.send({ item })
+    } catch (err){
+        return res.status(400).send({ error: 'Tente mais tarde'})
+    }
+});
+
+
+router.get('/close', async (req, res) => {
+    try {
+        const item = await Item.find({ isAble: false });
 
         return res.send({ item })
     } catch (err){

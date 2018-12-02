@@ -17,10 +17,17 @@ const ItemSchema = new mongoose.Schema({
         type: String,
         require: true,
     },
-    participantId: {
+    participantName: {
         type: String,
-        require: false,
     },
+    isAble: {
+        type: Boolean,
+        default: true,
+    },
+    isAuction: {
+        type: Boolean,
+        default: true,
+    }
 });
 
 const Item = mongoose.model('Item', ItemSchema);
