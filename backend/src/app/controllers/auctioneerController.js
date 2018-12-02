@@ -54,5 +54,21 @@ router.post('/login', async (req, res) => {
     }
 });
 
+
+router.post('/close', async (req, res) => {
+    const { password } = req.body;
+    try {
+        const auctioneer = await Auctioneer.findOne({ password: password });
+
+        if (auctioneer)
+            return res.send({ auctioneer })
+        else
+            return res.send({ result: 'Usuário não encontrado'})
+
+    } catch (err){
+        return res.status(400).send({ error: 'Usuário não econtrado'})
+    }
+});
+
 module.exports = app => app.use('/auctioneer', router);
 

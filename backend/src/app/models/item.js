@@ -22,9 +22,11 @@ const ItemSchema = new mongoose.Schema({
     },
     isAble: {
         type: Boolean,
+        default: true
     },
     isAuction: {
         type: Boolean,
+        default: true
     }
 });
 

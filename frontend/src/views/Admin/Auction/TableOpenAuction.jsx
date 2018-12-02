@@ -15,6 +15,7 @@ import {
 } from "reactstrap";
 
 import Button from "../../../components/CustomButton/CustomButton.jsx";
+import ModalCloseAuction from './ModalCloseAuction';
 
 class TableItemsAble extends Component {
     state = {
@@ -56,11 +57,10 @@ class TableItemsAble extends Component {
         })
     }
     
-    deleteAuction(idAuct){
-        console.log(id)
+    cancelAuction(){
         const value = this.state.value;
         const salesman = this.state.salesman;
-        const itemId = this.state.id;
+        const idAuction = this.props.id;
         const title = this.state.title;
         const description = this.state.description;
         const isAble = true;
@@ -78,14 +78,14 @@ class TableItemsAble extends Component {
 
         console.log(item);
 
-        axios.delete(`http://localhost:3004/auction/${idAuct}`)
+        axios.delete(`http://localhost:3004/auction/${idAuction}`)
         .then(response => {
             console.log(response.data);
         })
         axios.put(`http://localhost:3004/item/${id}`, item)
         .then(response => {
             alert("sucess");
-            //window.location = "auction"
+            window.location = "auction"
             console.log(response.data);
         })
     }
@@ -104,12 +104,15 @@ class TableItemsAble extends Component {
                         <i className="nc-icon nc-alert-circle-i"/>
                     </Button>
                 </td>
-                <td><Button 
-                    round 
-                    onClick={() => this.deleteAuction(this.props.id)}
-                    color="danger">
-                        <i className="nc-icon nc-simple-remove"/>
-                    </Button>
+                <td>
+                    <ModalCloseAuction 
+                        auctionId={this.props.id} 
+                        title={this.props.title}
+                        value={this.props.value}
+                        salesman={this.props.salesman}
+                        description={this.props.description}
+                        idItem={this.props.idItem}
+                    />
                 </td>
 
             </tr>
@@ -175,7 +178,7 @@ class TableItemsAble extends Component {
             </Form>
           </ModalBody>
           <ModalFooter>
-            <Button color="primary" onClick={() => this.editAuction()}>Fechar Leilão</Button>
+            <Button color="primary" onClick={() => this.cancelAuction()}>Cancelar Leilão</Button>
             <Button color="secondary" onClick={() => this.toggle()}>Cancelar</Button>
           </ModalFooter>
         </Modal>
