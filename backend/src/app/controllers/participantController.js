@@ -57,4 +57,25 @@ router.put('/:participantId', async (req, res) => {
     }
 });
 
+router.post('/login', async (req, res) => {
+    const { email, cpf } = req.body;
+    try {
+        const participant = await Participant.findOne({
+            email: email,
+            cpf: cpf
+        });
+
+        if (participant)
+            return res.send({ participant })
+        else if (await Participant.findOne({ cpf }))
+            return res.send({ result: 'Email ou senha inválidos' })
+        else {
+            return res.send({ result: 'Usuário não entrado' })
+        }
+
+    } catch (err){
+        return res.status(400).send({ error: 'Usuário não econtrado'})
+    }
+});
+
 module.exports = app => app.use('/participant', router);

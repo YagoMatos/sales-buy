@@ -1,0 +1,19 @@
+.App .content {
+  background-color: '#000';
+  
+}
+
+.App .login {
+  text-align: center;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+.App .btn-signout{  
+  display: flex;
+  justify-content: flex-end;
+  background-color: #f4f3ef;
+}
+

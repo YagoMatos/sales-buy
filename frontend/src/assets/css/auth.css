@@ -4,11 +4,13 @@
     justify-content: center;
     align-items: center;
     height: auto;
+    z-index: 1;
+    position: absolute;
+    width: 100%;
 }
 
 .title-auth{
     font-size: 10pt;
     display: flex;
     margin-top: 5em;
-
 }
