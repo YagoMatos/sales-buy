@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { fakeAuthCentralState } from '../../App';
+
 
 import { 
     FormGroup, 
@@ -17,90 +17,70 @@ import {
 
 import Button from "../../components/CustomButton/CustomButton.jsx";
 
+  import { Route, Redirect, Link } from "react-router-dom";
+import Dashboard from '../../layouts/Dashboard/Dashboard';
+
+
 class Auth extends Component {
     state = {
-        redirectToReferrer: false,
         email: '',
         password: '',
         logged: ''
     }
 
     handleEmail(e){
-        this.setState({email: e.target.value})
+        this.setState({
+            email: e.target.value
+        })
     }
 
     handlePassword(e){
-        this.setState({password: e.target.value})
+        this.setState({
+            password: e.target.value
+        })
     }
 
     login(){
         localStorage.clear();
         const email = this.state.email;
-        const cpf = this.state.password;
         const password = this.state.password;
 
-        const auctioneer = { email, password };
+        const auctioneer = {
+            email,
+            password,
+        };
 
-        const participant = { email, cpf}
+        console.log(auctioneer);
 
-        if(email !== 'test@test.com'){
-
-            axios.post('http://localhost:3004/participant/login', participant)
-             .then(response => {
-
-                const result = response.data.result;
-                const participant = response.data.participant;
-
-                if (participant){
-                    localStorage.setItem('user',`${participant._id}`);
-                    fakeAuthCentralState.authenticate(() => {      
-                        this.setState(() => ({ redirectToReferrer: true }));
-                    });
-                } 
-                else {
-                    alert(result);
-                }
-            }).catch((error) => alert("Desculpe! tente mais tarde"));
-        } else {
-            axios.post('http://localhost:3004/auctioneer/login', auctioneer)
+        axios.post('http://localhost:3004/auctioneer/login', auctioneer)
             .then(response => {
-
+                console.log(response);
                 const result = response.data.result;
                 const auctioneer = response.data.auctioneer;
-
                 if (auctioneer){
-                    localStorage.setItem('admin','logged');
-                    fakeAuthCentralState.authenticate(() => {      
-                        this.setState(() => ({ redirectToReferrer: true }));
-                    });
+                    alert('sucesso');
+                
                 } 
                 else {
                     alert(result);
                 }
-            }).catch((error) => alert("Desculpe! tente mais tarde"));
-        }
+            }).catch((error) => alert("Sorry"));
     }
     
     render(){
-        const { from } = this.props.location.state || { from: { pathname: '/' } };
-        const { redirectToReferrer } = this.state;
-
-        if (redirectToReferrer === true) {
-            this.props.history.push(from.pathname);
-        }
-
         return(
             <div className="content-login">
                 <Row>
+                   
                     <Col md={12}>
                         <div className="title-auth">
-                            <h1>Sales&Buy</h1>
+                            <h1>SalesAndBuy</h1>
                         </div>
                         <Card className="card-user">
                             <CardHeader>
                                 <CardTitle>
                                     <div className="justify-content-center d-flex">
-                                        Login
+                                        Login Admin
                                     </div>
                                 </CardTitle>
                             </CardHeader>
@@ -143,7 +123,11 @@ class Auth extends Component {
                             </CardBody>
                         </Card>
                     </Col>
-                </Row> 
+                </Row>
+
+
+        
+                
             </div>
         )
     }
