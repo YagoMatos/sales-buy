@@ -75,12 +75,7 @@ const AuthButton = withRouter(({ history }) => (
         Sign out
       </Button>
     </div>
-  ) : (
-    <div className="login">
-      <h3>Ops! Parece que você não está mais logado!</h3>
-      <h4> : ( </h4>
-    </div>
-  )
+  ) : <Redirect to={{ pathname: '/protected'}} />
 ));
 
 class App extends Component {
@@ -88,11 +83,9 @@ class App extends Component {
     return (
       <div className="App">
         <BrowserRouter>
-          <div className="content">
+          <div className="home">
             <AuthButton/>
-            <div className="login">
-              <li><Link to="/protected">Protected Content</Link></li>
-            </div>
+            <Redirect to={{ pathname: '/protected'}} />
             <Route path="/login" component={withRouter(Auth)}/>
             <ProtectedRoute path='/protected' component={Protected} />
           </div>

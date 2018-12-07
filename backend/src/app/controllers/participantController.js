@@ -45,9 +45,9 @@ router.get('/', async (req, res) => {
 
 router.put('/:participantId', async (req, res) => {
     try {
-        const { name, cpf, email, admin, endereco, celular, password } = req.body;
+        const { name, cpf, email, admin, endereco, celular } = req.body;
         const participant = await Participant.findByIdAndUpdate(req.params.participantId, {
-            name, cpf, email, admin, endereco, celular, password
+            name, cpf, email, admin, endereco, celular
         }, {new: true });
 
         return res.send({ participant })

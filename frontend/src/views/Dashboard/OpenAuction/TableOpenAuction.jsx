@@ -19,14 +19,30 @@ import Button from "../../../components/CustomButton/CustomButton.jsx";
 class TableItemsAble extends Component {
     state = {
         modal: false,
+        participantId: this.props.participantId,
+        participantName: '',
         title: this.props.title,
         value: this.props.value,
         salesman: this.props.salesman,
         description: this.props.description,
         id: this.props.id,
         valueParticipant: '',
-        nameParticipant: ''
+
+        
     };
+
+
+    componentDidMount(){
+        const participantId = localStorage.getItem('user');
+
+        axios.get(`http://localhost:3004/participant/${participantId}`)
+        .then(response => {
+            const participant = response.data
+            this.setState({ participantName: participant.participant.name });
+            console.log(participant.participant.name);
+        });
+
+    }
     
     toggle() {
         this.setState({
@@ -40,6 +56,7 @@ class TableItemsAble extends Component {
         const value = this.state.value;
         const salesman = this.state.salesman;
         const itemId = this.state.id;
+
         console.log(itemId);
 
         const auction = {
@@ -47,13 +64,13 @@ class TableItemsAble extends Component {
             itemName,
             value,
             salesman,
-            itemId
+            itemId,
         };
 
         axios.put(`http://localhost:3004/auction/${auction}`, auction)
             .then(response => {
                 alert("sucess");
-                window.location = "auction"
+                //window.location = "auction"
                 console.log(response.data);
         })
     }
@@ -155,7 +172,7 @@ class TableItemsAble extends Component {
                                 <Input 
                                     type="text"
                                     disabled
-                                    value={this.state.nameParticipant}
+                                    value={this.state.participantName}
                                     >
                                 </Input>
                             </FormGroup>

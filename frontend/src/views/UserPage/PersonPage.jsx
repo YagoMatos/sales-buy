@@ -26,22 +26,20 @@ class PersonPage extends Component {
   constructor () {
     super()
     this.state = {
-      patientName: '',
-      patientCpf: '',
-      patientEmail: '',
-      patientId: '',
-      patientEnable: '',
-      patientEnd: '',
-      patientRg: '',
-      patientTel: '',
+      participantName: '',
+      participantCpf: '',
+      participantEmail: '',
+      participantId: '',
+      participantEnable: '',
+      participantEnd: '',
+      participantCelular: '',
       reports: '',
-      patient: {
+      participant: {
         name: '',
         cpf: '',
-        rg: '',
+        celular: '',
         enable: '',
         email: '',
-        telefone: '',
         endereco: '',
         _id: '',
     }
@@ -50,70 +48,55 @@ class PersonPage extends Component {
 
   handleChangeName(event) {
     this.setState({
-      patientName: event.target.value
+      participantName: event.target.value
     })
   }
 
-  handleChangeEnable(event) {
-    this.setState({
-      patientEnable: event.target.value
-    })
-  }
-
-  handleChangeRg(event) {
+  handleChangeCelular(event) {
       this.setState({
-        patientRg: event.target.value
+        participantcelular: event.target.value
     })
   }
 
   handleChangeCpf(event) {
     this.setState({
-      patientCpf: event.target.value
+      participantCpf: event.target.value
     })
   }
 
   handleChangeEmail(event) {
     this.setState({
-      patientEmail: event.target.value
-    })
-  }
-
-  handleChangeTel(event) {
-    this.setState({
-      patientTel: event.target.value
+      participantEmail: event.target.value
     })
   }
 
   handleChangeEnd(event) {
     this.setState({
-      patientEnd: event.target.value
+      participantEnd: event.target.value
     })
   }
 
   componentDidMount(){
-    // console.log(this.props.location.pathname)
-    const patientId = this.props.location.pathname;
-    axios.get(`http://localhost:3003${patientId}`)
+    const participantId = localStorage.getItem('user');
+    axios.get(`http://localhost:3004/participant/${participantId}`)
     .then(response => {
         console.log(response.data);
-        const patient = response.data;
-        this.setState({ patient: patient.patient });
+        const participant = response.data;
+        this.setState({ participant: participant.participant });
         this.setState({
-          patientName: patient.patient.name,
-          patientCpf: patient.patient.cpf,
-          patientEmail: patient.patient.email,
-          patientId: patient.patient._id,
-          patientEnable: patient.patient.enable,
-          patientRg: patient.patient.rg,
-          patientTel: patient.patient.telefone,
-          patientEnd: patient.patient.endereco,
+          participantName: participant.participant.name,
+          participantCpf: participant.participant.cpf,
+          participantEmail: participant.participant.email,
+          participantId: participant.participant._id,
+          participantCelular: participant.participant.celular,
+          participantEnd: participant.participant.endereco,
         });
-        this.renderReports(patient.patient._id);
+        this.renderReports(participant.participant._id);
     });
   }
 
-  renderReports(patientId){
-    axios.get(`http://localhost:3003/report/${patientId}`)
+  renderReports(participantId){
+    axios.get(`http://localhost:3003/report/${participantId}`)
     .then(response => {
         console.log(response.data);
           const report = response.data
@@ -124,43 +107,39 @@ class PersonPage extends Component {
 
   reports(){
     return(
-      <Report patientIdReport={this.state.patientId} report={this.state.reports}/>
+      <Report participantIdReport={this.state.participantId} report={this.state.reports}/>
     );
   }
 
-  registerPatient(){
-    const name = this.state.patientName;
-    const email = this.state.patientEmail;
-    const rg = this.state.patientRg;
-    const cpf = this.state.patientCpf;
-    const patientId = this.state.patient._id;
-    const enable = this.state.patientEnable;
-    const endereco = this.state.patientEnd;
-    const telefone = this.state.patientTel;
+  registerparticipant(){
+    const name = this.state.participantName;
+    const email = this.state.participantEmail;
+    const celular = this.state.participantcelular;
+    const cpf = this.state.participantCpf;
+    const participantId = this.state.participant._id;
+    const endereco = this.state.participantEnd;
 
-    const patient = {
+
+    const participant = {
       name,
       cpf,
-      rg,
-      enable,
       email,
       endereco,
-      telefone,
-      patientId,
+      celular,
+      participantId,
   };
 
-  console.log(patientId);
+  console.log(participantId);
 
-  axios.put(`http://localhost:3003/patient/${patientId}`, patient)
+  axios.put(`http://localhost:3003/participant/${participantId}`, participant)
       .then(response => {
           alert("sucess");
-          window.location=`${patientId}`
           console.log(response.data);
         })
   }
   
   render(){
-    const { name, enable, email } = this.state.patient;
+    const { name, enable, email } = this.state.participant;
 
     return (
       <div className="content">
@@ -194,7 +173,7 @@ class PersonPage extends Component {
                           <Input 
                             type="text" 
                             placeholder="Nome" 
-                            value={this.state.patientName}
+                            value={this.state.participantName}
                             required
                             onChange={(event) => this.handleChangeName(event)}
                           />
@@ -207,7 +186,7 @@ class PersonPage extends Component {
                             type="text" 
                             required
                             placeholder="Email" 
-                            value={this.state.patientEmail}
+                            value={this.state.participantEmail}
                             onChange={(event) => this.handleChangeEmail(event)}
                           />
                         </FormGroup>
@@ -216,13 +195,13 @@ class PersonPage extends Component {
                   <Row>
                     <Col md={6}>
                       <FormGroup>
-                          <Label>RG</Label>
+                          <Label>celular</Label>
                           <Input 
                             required
                             type="number" 
-                            placeholder="RG" 
-                            value={this.state.patientRg}
-                            onChange={(event) => this.handleChangeRg(event)}
+                            placeholder="celular" 
+                            value={this.state.participantCelular}
+                            onChange={(event) => this.handleChangeCelular(event)}
                           />
                       </FormGroup>
                     </Col>
@@ -233,33 +212,21 @@ class PersonPage extends Component {
                             required
                             type="number" 
                             placeholder="CPF" 
-                            value={this.state.patientCpf}
+                            value={this.state.participantCpf}
                             onChange={(event) => this.handleChangeCpf(event)}
                           />
                       </FormGroup>
                     </Col>
                   </Row>
                   <Row>
-                    <Col md={4}>
-                      <FormGroup>
-                          <Label>Telefone</Label>
-                          <Input 
-                            required
-                            type="number" 
-                            placeholder="telefone" 
-                            value={this.state.patientTel}
-                            onChange={(event) => this.handleChangeTel(event)}
-                          />
-                      </FormGroup>
-                    </Col>
-                    <Col md={8}>
+                    <Col md={12}>
                       <FormGroup>
                           <Label>Endereço</Label>
                           <Input 
                             required
                             type="text" 
                             placeholder="endereço" 
-                            value={this.state.patientEnd}
+                            value={this.state.participantEnd}
                             onChange={(event) => this.handleChangeEnd(event)}
                           />
                       </FormGroup>
@@ -270,7 +237,7 @@ class PersonPage extends Component {
                       <Button 
                         color="success" 
                         round
-                        onClick={() => this.registerPatient()}
+                        onClick={() => this.registerparticipant()}
                       >Salvar</Button>
                       </div>
                       <div className="update ml-auto mr-auto">

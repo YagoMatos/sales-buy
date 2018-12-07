@@ -4,6 +4,10 @@ import Auction from "../views/Admin/Auction/Auction.jsx";
 
 var adminRoutes = [
   {
+    path: "/protected",
+    component: Admin
+  },
+  {
     path: "/admin",
     name: "Menu",
     icon: "nc-icon nc-bank",
