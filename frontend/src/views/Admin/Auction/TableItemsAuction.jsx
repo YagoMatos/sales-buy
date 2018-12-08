@@ -45,7 +45,8 @@ class TableItemsAble extends Component {
             itemName,
             value,
             salesman,
-            itemId
+            itemId,
+            isOpen: true
         };
 
         const title = this.state.title;
@@ -59,7 +60,6 @@ class TableItemsAble extends Component {
             title,
             description,
             isAuction,
-            itemId,
             isAble
         };
       
@@ -73,7 +73,6 @@ class TableItemsAble extends Component {
         axios.put(`http://localhost:3004/item/${itemId}`, item)
             .then(response => {
                 alert("sucess");
-                window.location = "auction"
                 console.log(response.data);
             })
 

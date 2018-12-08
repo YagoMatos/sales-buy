@@ -25,6 +25,8 @@ class TableItemsAble extends Component {
         salesman: this.props.salesman,
         description: this.props.description,
         id: this.props.id,
+        idItem: this.props.idItem,
+        participantName: this.props.participantName
     };
     
     toggle() {
@@ -38,7 +40,8 @@ class TableItemsAble extends Component {
         const itemName = this.state.title;
         const value = this.state.value;
         const salesman = this.state.salesman;
-        const itemId = this.state.id;
+        const itemId = this.state.idItem;
+        const idAuction = this.props.id;
         console.log(itemId);
 
         const auction = {
@@ -49,10 +52,10 @@ class TableItemsAble extends Component {
             itemId
         };
 
-        axios.put(`http://localhost:3004/auction/${auction}`, auction)
+        axios.put(`http://localhost:3004/auction/${idAuction}`, auction)
             .then(response => {
                 alert("sucess");
-                window.location = "auction"
+                //window.location = "auction"
                 console.log(response.data);
         })
     }
@@ -85,7 +88,6 @@ class TableItemsAble extends Component {
         axios.put(`http://localhost:3004/item/${id}`, item)
         .then(response => {
             alert("sucess");
-            window.location = "auction"
             console.log(response.data);
         })
     }
@@ -111,7 +113,9 @@ class TableItemsAble extends Component {
                         value={this.props.value}
                         salesman={this.props.salesman}
                         description={this.props.description}
-                        idItem={this.props.idItem}
+                        idItem={this.state.idItem}
+                        participantName={this.state.participantName}
+                        participantId={this.props.participantId}
                     />
                 </td>
 
@@ -170,6 +174,19 @@ class TableItemsAble extends Component {
                               placeholder="Descrição"
                               disabled
                               value={this.state.description}
+                              >
+                            </Input>
+                      </FormGroup>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col md={12}>
+                    <FormGroup> 
+                        <Label>Nome do Participante</Label>
+                          <Input 
+                              type="text"
+                              disabled
+                              value={this.state.participantName}
                               >
                             </Input>
                       </FormGroup>

@@ -27,6 +27,9 @@ const ItemSchema = new mongoose.Schema({
     isAuction: {
         type: Boolean,
         default: true
+    },
+    participantId: {
+        type: String
     }
 });
 

@@ -25,12 +25,10 @@ class TableItemsAble extends Component {
         value: this.props.value,
         salesman: this.props.salesman,
         description: this.props.description,
+        idItem: this.props.idItem,
         id: this.props.id,
         valueParticipant: '',
-
-        
     };
-
 
     componentDidMount(){
         const participantId = localStorage.getItem('user');
@@ -49,34 +47,48 @@ class TableItemsAble extends Component {
           modal: !this.state.modal
         });
     }
-    
-    editAuction(){
-        const itemDescription = this.state.description;
-        const itemName = this.state.title;
-        const value = this.state.value;
-        const salesman = this.state.salesman;
-        const itemId = this.state.id;
 
-        console.log(itemId);
-
-        const auction = {
-            itemDescription,
-            itemName,
-            value,
-            salesman,
-            itemId,
-        };
-
-        axios.put(`http://localhost:3004/auction/${auction}`, auction)
-            .then(response => {
-                alert("sucess");
-                //window.location = "auction"
-                console.log(response.data);
+    changeValue(event){
+        this.setState({
+            valueParticipant: event.target.value
         })
     }
     
     bid(){
-      
+        if(this.state.valueParticipant <= this.state.value || this.state.valueParticipant === ''){
+            alert('Valor inválido, insira uma valor maior!');
+        } else {
+
+            const itemDescription = this.state.description;
+            const itemName = this.state.title;
+            const value = this.state.valueParticipant;
+            const salesman = this.state.salesman;
+            const itemId = this.state.idItem;
+            const participantId = localStorage.getItem('user');
+            const participantName = this.state.participantName;
+            const auctionId = this.state.id;
+
+            console.log(itemId);
+
+            const auction = {
+                itemDescription,
+                itemName,
+                value,
+                salesman,
+                itemId,
+                participantName,
+                participantId,
+                isOpen: true,
+            };
+
+            axios.put(`http://localhost:3004/auction/${auctionId}`, auction)
+                .then(response => {
+                    alert("sucess");
+                    //window.location = "auction"
+                    console.log(response.data);
+            }).catch(error => console.log(error))
+        }
+        
     }
 
   render() {
@@ -162,7 +174,7 @@ class TableItemsAble extends Component {
                                 name="value" 
                                 value={this.state.valueParticipant}
                                 placeholder="Valor" 
-                                onChange={(event) => this.setState({ valueParticipant: event.target.value })}
+                                onChange={(event) => this.changeValue(event)}
                                 />
                         </FormGroup>
                         </Col>

@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import { Redirect } from 'react-router-dom';
 
 import { 
     Button, 
@@ -53,7 +54,7 @@ class ModalSchedule extends React.Component {
     axios.post('http://localhost:3004/item/register', item)
         .then(response => {
             alert("sucess");
-            window.location="/item"
+            return (<Redirect to={{ pathname: '/item'}} />)
         })
         .catch((error) => {
           alert("Item Já cadastrado!");

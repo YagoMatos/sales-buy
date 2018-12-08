@@ -47,7 +47,7 @@ class ModalSchedule extends Component {
           const auctioneer = response.data.auctioneer;
           
           if (auctioneer){
-            
+              
               alert('sucesso');
               const itemDescription = this.state.description;
               const itemName = this.state.title;
@@ -55,13 +55,14 @@ class ModalSchedule extends Component {
               const salesman = this.state.salesman;
               const itemId = this.props.idItem;
               const isOpen = false;
-              const closeAt = Date.now;
+              const closeAt = Date.now();
+              const participantName = this.props.participantName;
+              const participantId = this.props.participantId
           
               const title = this.state.title;
               const description = this.state.description;
               const isAble = false;
               const isAuction = false;
-              const id = this.props.idItem;
               const auctionId = this.props.auctionId;
           
               const item = {
@@ -71,6 +72,7 @@ class ModalSchedule extends Component {
                   description,
                   isAuction,
                   isAble,
+                  participantId
               };
           
               const auction = {
@@ -80,7 +82,9 @@ class ModalSchedule extends Component {
                   salesman,
                   itemId,
                   isOpen,
-                  closeAt
+                  closeAt,
+                  participantId,
+                  participantName,
               };
           
               console.log(item);
@@ -90,9 +94,8 @@ class ModalSchedule extends Component {
                   console.log(response.data);
               })
           
-              axios.put(`http://localhost:3004/item/${id}`, item)
+              axios.put(`http://localhost:3004/item/${itemId}`, item)
               .then(response => {
-                  window.location = "auction"
                   console.log(response.data);
               }) 
           }

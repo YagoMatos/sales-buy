@@ -33,7 +33,7 @@ class PersonPage extends Component {
       participantEnable: '',
       participantEnd: '',
       participantCelular: '',
-      reports: '',
+      items: '',
       participant: {
         name: '',
         cpf: '',
@@ -91,23 +91,13 @@ class PersonPage extends Component {
           participantCelular: participant.participant.celular,
           participantEnd: participant.participant.endereco,
         });
-        this.renderReports(participant.participant._id);
+        this.reports();
     });
-  }
-
-  renderReports(participantId){
-    axios.get(`http://localhost:3003/report/${participantId}`)
-    .then(response => {
-        console.log(response.data);
-          const report = response.data
-          this.setState({ reports: report });
-          console.log(this.state.reports);
-      });
   }
 
   reports(){
     return(
-      <Report participantIdReport={this.state.participantId} report={this.state.reports}/>
+      <Report />
     );
   }
 
@@ -139,7 +129,7 @@ class PersonPage extends Component {
   }
   
   render(){
-    const { name, enable, email } = this.state.participant;
+    const { name, email } = this.state.participant;
 
     return (
       <div className="content">

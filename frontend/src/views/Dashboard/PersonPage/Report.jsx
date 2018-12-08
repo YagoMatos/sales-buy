@@ -15,14 +15,25 @@ import ModalReport from "./ModalReport";
 import ReportTable from './ReportTable.jsx';
 
 class Report extends Component {
-    constructor () {
-        super()
-        this.state = {
-          report: '',
-        }
-      }
+    state = {
+        items: [],
+    }
 
-    reportClicked(id){
+    componentDidMount(){
+        const participantId = localStorage.getItem('user')
+        axios.get(`http://localhost:3004/item/part/${participantId}`)
+        .then(response => {
+            console.log(response.data);
+                const item = response.data
+                this.setState({ items: item.item });
+                console.log(this.state.items);
+                console.log(this.state.items.map( i => i.title));
+            });
+          
+    }
+    
+
+    itemClicked(id){
     console.log(id)
     }
 
@@ -40,25 +51,23 @@ class Report extends Component {
                         <thead className="text-primary">
                             <tr>
                                 <th>Nome do Item</th>
-                                <th>Visualizar Informações</th>
+                                <th className="d-flex justify-content-end">Visualizar Informações</th>
                             </tr>
                         </thead>
                         { 
-                            this.props.report.length !== 0 ? 
-                            this.props.report.report.map(repo => {
+                            this.state.items.map(item => {
                                 return (
                                 <ReportTable
-                                    key={repo._id} 
-                                    date={repo.date}
-                                    title={repo.title}
-                                    id={repo._id}
-                                    patientIdReport={this.props.patientIdReport}
-                                    clicked={() => this.reportClicked(repo._id)}
+                                    key={item._id} 
+                                    title={item.title}
+                                    salesman={item.salesman}
+                                    value={item.value}
+                                    description={item.description}
+                                    id={item._id}
+                                    clicked={() => this.itemClicked(item._id)}
                                 />
                                 )
-                            }) : null
-                            
-                        }
+                            })}
                         </Table>
                     </CardBody>
                     </Card>
