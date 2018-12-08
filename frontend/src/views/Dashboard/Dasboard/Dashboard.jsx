@@ -20,7 +20,7 @@ class Dashboard extends Component {
         console.log(this.state.participantLength);
     });
 
-    axios.get(`http://localhost:3004/auction/`)
+    axios.get(`http://localhost:3004/auction/open`)
     .then(response => {
         const auction = response.data.auction
         this.setState({ auctionLength: auction.length });

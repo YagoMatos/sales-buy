@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Link, Redirect, withRouter, Switch, Router } from 'react-router-dom';
+import { BrowserRouter, Route, Redirect, withRouter, Switch, Router } from 'react-router-dom';
 import { createBrowserHistory } from "history";
 
 import "../node_modules/bootstrap/dist/css/bootstrap.css";

@@ -11,7 +11,6 @@ import {
     Col 
 } from "reactstrap";
 
-import ModalReport from "./ModalReport";
 import ReportTable from './ReportTable.jsx';
 
 class Report extends Component {

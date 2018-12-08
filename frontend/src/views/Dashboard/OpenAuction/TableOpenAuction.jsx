@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from 'axios';
+import { Redirect } from 'react-router-dom';
 
 import {
     Modal, 
@@ -28,6 +29,7 @@ class TableItemsAble extends Component {
         idItem: this.props.idItem,
         id: this.props.id,
         valueParticipant: '',
+        redictSuccessful: false
     };
 
     componentDidMount(){
@@ -83,8 +85,8 @@ class TableItemsAble extends Component {
 
             axios.put(`http://localhost:3004/auction/${auctionId}`, auction)
                 .then(response => {
-                    alert("sucess");
-                    //window.location = "auction"
+                    alert("Lance feito Com Sucesso!");
+                    this.setState({ redictSuccessful: true })
                     console.log(response.data);
             }).catch(error => console.log(error))
         }
@@ -197,6 +199,9 @@ class TableItemsAble extends Component {
             <Button color="secondary" onClick={() => this.toggle()}>Cancelar</Button>
           </ModalFooter>
         </Modal>
+        { this.state.redictSuccessful === true && (
+            <Redirect to="/" />
+        )}
         </tbody>
     );
   }

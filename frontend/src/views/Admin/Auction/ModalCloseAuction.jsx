@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { Redirect } from 'react-router-dom';
 
 import { 
     Modal, 
@@ -25,7 +26,8 @@ class ModalSchedule extends Component {
     salesman: this.props.salesman,
     description: this.props.description,
     id: this.props.id,
-    password: ''
+    password: '',
+    redictSuccessful: false
   };
 
   toggle() {
@@ -47,8 +49,7 @@ class ModalSchedule extends Component {
           const auctioneer = response.data.auctioneer;
           
           if (auctioneer){
-              
-              alert('sucesso');
+              alert('Leilão Fechado com Sucesso!');
               const itemDescription = this.state.description;
               const itemName = this.state.title;
               const value = this.state.value;
@@ -97,14 +98,14 @@ class ModalSchedule extends Component {
               axios.put(`http://localhost:3004/item/${itemId}`, item)
               .then(response => {
                   console.log(response.data);
+                  this.setState({ redictSuccessful: true })
               }) 
           }
           else{
             alert('Senha inválida')
           }
-      }).catch((error) => alert("Sorry"));
+      }).catch((error) => alert("Desculpe tente mais tarde"));
  }
-
 
   render() {
     return (
@@ -140,6 +141,9 @@ class ModalSchedule extends Component {
             <Button color="secondary" onClick={() => this.toggle()}>Cancelar</Button>
           </ModalFooter>
         </Modal>
+        { this.state.redictSuccessful === true && (
+            <Redirect to="/" />
+        )}
       </div>
     );
   }

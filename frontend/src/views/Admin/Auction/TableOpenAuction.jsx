@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from 'axios';
+import { Redirect } from 'react-router-dom';
 
 import {
     Modal, 
@@ -26,38 +27,14 @@ class TableItemsAble extends Component {
         description: this.props.description,
         id: this.props.id,
         idItem: this.props.idItem,
-        participantName: this.props.participantName
+        participantName: this.props.participantName,
+        redictSuccessful: false
     };
     
     toggle() {
         this.setState({
           modal: !this.state.modal
         });
-    }
-    
-    editAuction(){
-        const itemDescription = this.state.description;
-        const itemName = this.state.title;
-        const value = this.state.value;
-        const salesman = this.state.salesman;
-        const itemId = this.state.idItem;
-        const idAuction = this.props.id;
-        console.log(itemId);
-
-        const auction = {
-            itemDescription,
-            itemName,
-            value,
-            salesman,
-            itemId
-        };
-
-        axios.put(`http://localhost:3004/auction/${idAuction}`, auction)
-            .then(response => {
-                alert("sucess");
-                //window.location = "auction"
-                console.log(response.data);
-        })
     }
     
     cancelAuction(){
@@ -87,8 +64,8 @@ class TableItemsAble extends Component {
         })
         axios.put(`http://localhost:3004/item/${id}`, item)
         .then(response => {
-            alert("sucess");
-            console.log(response.data);
+            alert("Leilão Cancelado com Sucesso!");
+            this.setState({ redictSuccessful: true })
         })
     }
 
@@ -118,7 +95,6 @@ class TableItemsAble extends Component {
                         participantId={this.props.participantId}
                     />
                 </td>
-
             </tr>
   
             <Modal isOpen={this.state.modal} toggle={() => this.toggle()} className={this.props.className}>
@@ -199,6 +175,9 @@ class TableItemsAble extends Component {
             <Button color="secondary" onClick={() => this.toggle()}>Cancelar</Button>
           </ModalFooter>
         </Modal>
+        { this.state.redictSuccessful === true && (
+            <Redirect to="/" />
+        )}
         </tbody>
     );
   }

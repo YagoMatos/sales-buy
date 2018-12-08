@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios"; 
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
 import CardAuthor from "../../../components/CardElements/CardAuthor.jsx";
 import Report from "./Report.jsx";
@@ -13,14 +13,13 @@ import {
   CardHeader, 
   CardBody, 
   CardTitle,
-  CardFooter,
   Row, 
   Col 
 } from 'reactstrap';
 
 import Button from "../../../components/CustomButton/CustomButton.jsx";
 import damirBosnjak from "../../../assets/img/damir-bosnjak.jpg";
-import mike from "../../../assets/img/mike.jpg";
+import avatar from "../../../assets/img/default-avatar.png";
 
 class PersonPage extends Component {
   constructor () {
@@ -42,6 +41,7 @@ class PersonPage extends Component {
         email: '',
         endereco: '',
         _id: '',
+        redictSuccessful: false
     }
   }
 }
@@ -53,14 +53,16 @@ class PersonPage extends Component {
   }
 
   handleChangeCelular(event) {
+      const celular = (event.target.validity.valid) ? event.target.value : this.state.participantCelular;
       this.setState({
-        participantcelular: event.target.value
+        participantCelular: celular
     })
   }
 
   handleChangeCpf(event) {
+    const cpf = (event.target.validity.valid) ? event.target.value : this.state.participantCpf;
     this.setState({
-      participantCpf: event.target.value
+      participantCpf: cpf
     })
   }
 
@@ -101,31 +103,42 @@ class PersonPage extends Component {
     );
   }
 
-  registerparticipant(){
-    const name = this.state.participantName;
-    const email = this.state.participantEmail;
-    const celular = this.state.participantCelular;
-    const cpf = this.state.participantCpf;
-    const participantId = this.state.participant._id;
-    const endereco = this.state.participantEnd;
+  registerParticipant(){
+    if (this.state.participantEmail === '' || 
+    this.state.participantCpf === '' || 
+    this.state.participantCelular === '' || 
+    this.state.participantName === '' || 
+    this.state.participantEnd === '' ||
+    this.state.participantCpf.length < 11 || 
+    this.state.participantCelular.length < 9
+    ){
+      alert('Preencha os campos corretamente!')
+    } else {
+        const name = this.state.participantName;
+        const email = this.state.participantEmail;
+        const celular = this.state.participantCelular;
+        const cpf = this.state.participantCpf;
+        const participantId = this.state.participant._id;
+        const endereco = this.state.participantEnd;
 
+        const participant = {
+          name,
+          cpf,
+          email,
+          endereco,
+          celular,
+          admin: false
+      };
 
-    const participant = {
-      name,
-      cpf,
-      email,
-      endereco,
-      celular,
-      admin: false
-  };
+      console.log(participantId);
 
-  console.log(participantId);
-
-  axios.put(`http://localhost:3004/participant/${participantId}`, participant)
-      .then(response => {
-          alert("sucess");
-          console.log(response.data);
-        })
+      axios.put(`http://localhost:3004/participant/${participantId}`, participant)
+          .then(response => {
+              alert("Alterado com Sucesso");
+              this.setState({ redictSuccessful: true })
+              console.log(response.data);
+            })
+    }
   }
   
   render(){
@@ -141,8 +154,7 @@ class PersonPage extends Component {
               </div>
               <CardBody>
                 <CardAuthor
-                  avatar={mike}
-                  avatarAlt="..."
+                  avatar={avatar}
                   title={name} 
                   description={email}
                 />
@@ -187,8 +199,10 @@ class PersonPage extends Component {
                       <FormGroup>
                           <Label>celular</Label>
                           <Input 
+                            pattern="[0-9]*"
+                            maxLength="11"
                             required
-                            type="number" 
+                            type="text" 
                             placeholder="celular" 
                             value={this.state.participantCelular}
                             onChange={(event) => this.handleChangeCelular(event)}
@@ -199,8 +213,10 @@ class PersonPage extends Component {
                       <FormGroup>
                           <Label>CPF</Label>
                           <Input 
+                            pattern="[0-9]*"
+                            maxLength="11"
                             required
-                            type="number" 
+                            type="text" 
                             placeholder="CPF" 
                             value={this.state.participantCpf}
                             onChange={(event) => this.handleChangeCpf(event)}
@@ -227,7 +243,7 @@ class PersonPage extends Component {
                       <Button 
                         color="success" 
                         round
-                        onClick={() => this.registerparticipant()}
+                        onClick={() => this.registerParticipant()}
                       >Salvar</Button>
                       </div>
                       <div className="update ml-auto mr-auto">
@@ -250,6 +266,9 @@ class PersonPage extends Component {
             }
           </Col>
         </Row>
+        { this.state.redictSuccessful === true && (
+            <Redirect to="/" />
+        )}
       </div>
     );
   }

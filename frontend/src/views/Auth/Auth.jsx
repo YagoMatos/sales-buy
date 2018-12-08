@@ -13,7 +13,6 @@ import {
     CardHeader,
     Row, 
     Col,
-    Alert
 } from 'reactstrap';
 
 import Button from "../../components/CustomButton/CustomButton.jsx";
@@ -95,35 +94,47 @@ class Auth extends Component {
             this.state.cpf === '' || 
             this.state.celular === '' || 
             this.state.nome === '' || 
-            this.state.endereco === '' 
+            this.state.endereco === '' ||
+            this.state.cpf.length < 11 || this.state.celular.length < 9
         ){
             alert('Preencha os campos corretamente!')
-        } else {
-            const name = this.state.nome;
-            const email = this.state.email;
-            const cpf = this.state.cpf;
-            const celular = this.state.celular;
-            const endereco = this.state.end;
+        } else{
+                alert('Preencha os campos corretamente!')
+                const name = this.state.nome;
+                const email = this.state.email;
+                const cpf = this.state.cpf;
+                const celular = this.state.celular;
+                const endereco = this.state.end;
 
-            const participant = {
-                name,
-                email,
-                cpf,
-                celular,
-                endereco
-            };
+                const participant = {
+                    name,
+                    email,
+                    cpf,
+                    celular,
+                    endereco
+                };
 
-            console.log(participant);
+                console.log(participant);
 
-            axios.post('http://localhost:3004/participant/register', participant)
-                .then(response => {
-                    console.log(response.data);
-                    alert("sucess");
-                    this.setState({ loginMode: true})
-                })
-                .catch((error) => { alert("Desculpe! Tente mais tarde!");
-            });
-        }
+                axios.post('http://localhost:3004/participant/register', participant)
+                    .then(response => {
+                        console.log(response.data);
+                        alert("sucess");
+                        this.setState({ loginMode: true})
+                    })
+                    .catch((error) => { alert("Desculpe! Tente mais tarde!");
+                });
+            }
+    }
+
+    handleChangeCpf(event){
+        const cpf = (event.target.validity.valid) ? event.target.value : this.state.cpf;
+        this.setState({ cpf });
+    }
+
+    handleChangeCel(event){
+        const celular = (event.target.validity.valid) ? event.target.value : this.state.celular;
+        this.setState({ celular })
     }
 
     render(){
@@ -212,12 +223,12 @@ class Auth extends Component {
                                         <FormGroup>
                                             <Label>Celular</Label>
                                             <Input 
-                                                min="9"
-                                                max="11"
-                                                type="number" 
+                                                pattern="[0-9]*"
+                                                maxLength="11"
+                                                type="text" 
                                                 placeholder="Celular" 
                                                 value={this.state.celular}
-                                                onChange={(event) => this.setState({celular: event.target.value})}
+                                                onChange={(event) => this.handleChangeCel(event)}
                                             />
                                         </FormGroup>
                                         </Col>
@@ -225,12 +236,12 @@ class Auth extends Component {
                                         <FormGroup>
                                             <Label>CPF</Label>
                                             <Input 
-                                                min="11"
-                                                max="11"
-                                                type="number" 
+                                                maxLength="11"
+                                                type="text"
+                                                pattern="[0-9]*"
                                                 placeholder="CPF" 
                                                 value={this.state.cpf}
-                                                onChange={(event) => this.setState({cpf: event.target.value})}
+                                                onChange={(event) => this.handleChangeCpf(event)}
                                             />
                                         </FormGroup>
                                         </Col>
