@@ -33,7 +33,7 @@ router.get('/', async (req, res) => {
     }
 });
 
-router.get('/:itemId', async (req, res) => {
+router.get('/my/:itemId', async (req, res) => {
     try {
         const item = await Item.findOne({ _id: req.params.itemId});
 
