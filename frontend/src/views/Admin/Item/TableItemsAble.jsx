@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import axios from 'axios';
+import { Redirect } from 'react-router-dom';
+import FormatCurrency from 'react-format-currency';
 
 import {
     Modal, 
@@ -22,7 +24,8 @@ class TableItemsAble extends Component {
         title: this.props.title,
         value: this.props.value,
         salesman: this.props.salesman,
-        description: this.props.description
+        description: this.props.description,
+        redictSuccessful: false
     };
     
     toggle() {
@@ -37,9 +40,9 @@ class TableItemsAble extends Component {
         })
     }
 
-    changeValue(event){
+    changeValue(values){
         this.setState({
-            value: event.target.value
+            value: values.value
         })
     }
 
@@ -61,29 +64,33 @@ class TableItemsAble extends Component {
         const value = this.state.value;
         const salesman = this.state.salesman;
         const itemId = this.props.id;
+        const isAble = true;
+        const isAuction = true;
 
         const item = {
             description,
             title,
             value,
             salesman,
-            itemId
+            itemId,
+            isAble,
+            isAuction,
         };
 
         axios.put(`http://localhost:3004/item/${itemId}`, item)
             .then(response => {
-                alert("sucess");
-                window.location = "item"
+                alert("Alterado com sucesso!");
                 console.log(response.data);
+                this.setState({ redictSuccessful: true })
             })
     }
     
     deleteMarck(id){
         axios.delete(`http://localhost:3004/item/${id}`)
         .then(response => {
-            alert("sucess");
-            console.log(response.data);
-            window.location="item"
+            alert("Excluido com sucesso!");
+            this.setState({ redictSuccessful: true })
+            
         })
     }
 
@@ -134,12 +141,11 @@ class TableItemsAble extends Component {
                 <Col md={6} xs={12}>
                     <FormGroup> 
                         <Label>Valor</Label>
-                        <Input 
-                            type="number" 
-                            name="value" 
-                            value={this.state.value}
-                            onChange={(event) => this.changeValue(event)}
-                            placeholder="Valor" />
+                        <FormatCurrency currency="BRL" 
+                          placeholder="0.00" 
+                          className="form-control" 
+                          value={this.state.value}
+                          onChange={(values) => this.changeValue(values)} />
                     </FormGroup>
                     </Col>
                     <Col md={6}>
@@ -176,6 +182,9 @@ class TableItemsAble extends Component {
             <Button color="secondary" onClick={() => this.toggle()}>Cancelar</Button>
           </ModalFooter>
         </Modal>
+        { this.state.redictSuccessful === true && (
+            <Redirect to="/admin" />
+        )}
         </tbody>
     );
   }

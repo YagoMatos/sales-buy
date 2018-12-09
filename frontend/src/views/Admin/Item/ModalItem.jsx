@@ -1,5 +1,7 @@
 import React from 'react';
 import axios from 'axios';
+import { Redirect } from 'react-router-dom';
+import FormatCurrency from 'react-format-currency';
 
 import { 
     Button, 
@@ -22,7 +24,8 @@ class ModalSchedule extends React.Component {
     title: '',
     value: '',
     salesman: '',
-    description: ''
+    description: '',
+    redictSuccessful: false
   };
 
   toggle() {
@@ -32,34 +35,40 @@ class ModalSchedule extends React.Component {
   }
 
   save(){
-    const title = this.state.title;
-    const value = this.state.value;
-    const salesman = this.state.salesman;
-    const description = this.state.description;
-    const isAble = true;
-    const isAuction = true;
+    if( this.state.title === '' ||
+        this.state.value === '' ||
+        this.state.salesman === '' ||
+        this.state.description === ''){
+          alert('preencha os campos corretamente!')
+    }else{
+      const title = this.state.title;
+      const value = this.state.value;
+      const salesman = this.state.salesman;
+      const description = this.state.description;
+      const isAble = true;
+      const isAuction = true;
 
-    const item = {
-        value,
-        salesman,
-        title,
-        description,
-        isAuction,
-        isAble
+      const item = {
+          value,
+          salesman,
+          title,
+          description,
+          isAuction,
+          isAble
     };
   
     console.log(item);
   
     axios.post('http://localhost:3004/item/register', item)
         .then(response => {
-            alert("sucess");
-            window.location="/item"
+            alert("Item Cadastrado com Sucesso!");
+            this.setState({redictSuccessful: true })
         })
         .catch((error) => {
           alert("Item Já cadastrado!");
       });
-        
-    }
+    }    
+  }
 
   render() {
     return (
@@ -90,12 +99,11 @@ class ModalSchedule extends React.Component {
                 <Col md={6} xs={12}>
                     <FormGroup> 
                         <Label>Valor</Label>
-                        <Input 
-                            type="number" 
-                            name="value" 
-                            value={this.state.value}
-                            onChange={(event) => this.setState({ value: event.target.value })}
-                            placeholder="Valor" />
+                        <FormatCurrency currency="BRL" 
+                          placeholder="0.00" 
+                          className="form-control" 
+                          value={this.state.value}
+                          onChange={(values) => this.setState({ value: values.value })} />
                     </FormGroup>
                     </Col>
                     <Col md={6}>
@@ -128,10 +136,15 @@ class ModalSchedule extends React.Component {
             </Form>
           </ModalBody>
           <ModalFooter>
-            <Button color="primary" onClick={() => this.save()}>Salvar</Button>
+            <Button color="primary" onClick={() => this.save()}>
+              Salvar
+            </Button>
             <Button color="secondary" onClick={() => this.toggle()}>Cancelar</Button>
           </ModalFooter>
         </Modal>
+        { this.state.redictSuccessful === true && (
+            <Redirect to="/auction" />
+        )}
       </div>
     );
   }

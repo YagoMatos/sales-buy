@@ -29,7 +29,7 @@ class Item extends Component {
             this.setState({ itemsUnableAble: item.item });
             console.log(item);
         });
-        axios.get(`http://localhost:3004/item/open`)
+        axios.get(`http://localhost:3004/item/avaliable`)
         .then(response => {
             const item = response.data
             this.setState({ itemsAble: item.item });
@@ -58,7 +58,7 @@ class Item extends Component {
                 <Col xs={12}>
                     <Card className="card-plain">
                     <CardHeader>
-                        <CardTitle tag="h4">Itens Disponíveis</CardTitle>
+                        <CardTitle tag="h4">Itens Disponíveis para Leilão</CardTitle>
                     </CardHeader>
                     <CardBody>
                         <Table responsive>

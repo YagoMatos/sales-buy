@@ -45,15 +45,36 @@ router.get('/', async (req, res) => {
 
 router.put('/:participantId', async (req, res) => {
     try {
-        const { name, cpf, email, admin, endereco, celular, password } = req.body;
+        const { name, cpf, email, admin, endereco, celular } = req.body;
         const participant = await Participant.findByIdAndUpdate(req.params.participantId, {
-            name, cpf, email, admin, endereco, celular, password
+            name, cpf, email, admin, endereco, celular
         }, {new: true });
 
         return res.send({ participant })
 
     } catch (err){
         return res.status(400).send({ error: 'Tente mais tarde'})
+    }
+});
+
+router.post('/login', async (req, res) => {
+    const { email, cpf } = req.body;
+    try {
+        const participant = await Participant.findOne({
+            email: email,
+            cpf: cpf
+        });
+
+        if (participant)
+            return res.send({ participant })
+        else if (await Participant.findOne({ cpf }))
+            return res.send({ result: 'Email ou senha inválidos' })
+        else {
+            return res.send({ result: 'Usuário não entrado' })
+        }
+
+    } catch (err){
+        return res.status(400).send({ error: 'Usuário não econtrado'})
     }
 });
 

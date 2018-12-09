@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import axios from 'axios';
+import { Redirect } from 'react-router-dom';
+import FormatCurrency from 'react-format-currency';
 
 import {
     Modal, 
@@ -19,47 +21,77 @@ import Button from "../../../components/CustomButton/CustomButton.jsx";
 class TableItemsAble extends Component {
     state = {
         modal: false,
+        participantId: this.props.participantId,
+        participantName: '',
         title: this.props.title,
         value: this.props.value,
         salesman: this.props.salesman,
         description: this.props.description,
+        idItem: this.props.idItem,
         id: this.props.id,
         valueParticipant: '',
-        nameParticipant: ''
+        redictSuccessful: false
     };
+
+    componentDidMount(){
+        const participantId = localStorage.getItem('user');
+
+        axios.get(`http://localhost:3004/participant/${participantId}`)
+        .then(response => {
+            const participant = response.data
+            this.setState({ participantName: participant.participant.name });
+            console.log(participant.participant.name);
+        });
+
+    }
     
     toggle() {
         this.setState({
           modal: !this.state.modal
         });
     }
-    
-    editAuction(){
-        const itemDescription = this.state.description;
-        const itemName = this.state.title;
-        const value = this.state.value;
-        const salesman = this.state.salesman;
-        const itemId = this.state.id;
-        console.log(itemId);
 
-        const auction = {
-            itemDescription,
-            itemName,
-            value,
-            salesman,
-            itemId
-        };
-
-        axios.put(`http://localhost:3004/auction/${auction}`, auction)
-            .then(response => {
-                alert("sucess");
-                window.location = "auction"
-                console.log(response.data);
+    changeValue(values){
+        this.setState({
+            valueParticipant: values.value
         })
     }
     
     bid(){
-      
+        if(this.state.valueParticipant <= this.state.value || this.state.valueParticipant === ''){
+            alert('Valor inválido, insira uma valor maior!');
+        } else {
+
+            const itemDescription = this.state.description;
+            const itemName = this.state.title;
+            const value = this.state.valueParticipant;
+            const salesman = this.state.salesman;
+            const itemId = this.state.idItem;
+            const participantId = localStorage.getItem('user');
+            const participantName = this.state.participantName;
+            const auctionId = this.state.id;
+
+            console.log(itemId);
+
+            const auction = {
+                itemDescription,
+                itemName,
+                value,
+                salesman,
+                itemId,
+                participantName,
+                participantId,
+                isOpen: true,
+            };
+
+            axios.put(`http://localhost:3004/auction/${auctionId}`, auction)
+                .then(response => {
+                    alert("Lance feito Com Sucesso!");
+                    this.setState({ redictSuccessful: true })
+                    console.log(response.data);
+            }).catch(error => console.log(error))
+        }
+        
     }
 
   render() {
@@ -140,13 +172,11 @@ class TableItemsAble extends Component {
                     <Col md={6} xs={12}>
                         <FormGroup> 
                             <Label>Seu Valor</Label>
-                            <Input 
-                                type="number" 
-                                name="value" 
+                            <FormatCurrency currency="BRL" 
+                                placeholder="0.00" 
+                                className="form-control" 
                                 value={this.state.valueParticipant}
-                                placeholder="Valor" 
-                                onChange={(event) => this.setState({ valueParticipant: event.target.value })}
-                                />
+                                onChange={(values) => this.changeValue(values)} />
                         </FormGroup>
                         </Col>
                         <Col md={6}>
@@ -155,7 +185,7 @@ class TableItemsAble extends Component {
                                 <Input 
                                     type="text"
                                     disabled
-                                    value={this.state.nameParticipant}
+                                    value={this.state.participantName}
                                     >
                                 </Input>
                             </FormGroup>
@@ -168,6 +198,9 @@ class TableItemsAble extends Component {
             <Button color="secondary" onClick={() => this.toggle()}>Cancelar</Button>
           </ModalFooter>
         </Modal>
+        { this.state.redictSuccessful === true && (
+            <Redirect to="/" />
+        )}
         </tbody>
     );
   }

@@ -55,7 +55,7 @@ class Auction extends Component {
                     <Col xs={12}>
                         <Card className="card-plain">
                         <CardHeader>
-                            <CardTitle tag="h4">Itens Disponíveis</CardTitle>
+                            <CardTitle tag="h4">Itens Disponíveis para Leilão</CardTitle>
                         </CardHeader>
                         <CardBody>
                             <Table responsive>
@@ -114,6 +114,8 @@ class Auction extends Component {
                                     id={auc._id}
                                     idItem={auc.itemId}
                                     isAuction={auc.isAuction}
+                                    participantName={auc.participantName}
+                                    participantId={auc.participantId}
                                     clicked={() => this.itemClicked(auc._id)}
                                 />
                                 )

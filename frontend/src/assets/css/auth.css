@@ -1,14 +1,69 @@
 .content-login{
-    background-color: #ccc;
+    background: url('../img/auction.jpg') center center fixed;;
+	background-size: cover;
+    background-repeat: no-repeat;
     display: flex;
     justify-content: center;
     align-items: center;
     height: auto;
+    z-index: 1;
+    position: absolute;
+    width: 100%;
+    min-height: 669px;
+    flex-direction: column;
 }
 
 .title-auth{
+    flex-direction: column;
+    text-align: center;
     font-size: 10pt;
     display: flex;
-    margin-top: 5em;
+    margin-top: 2em;
+    color: #fff;
+}
 
+.main-panel > .content{
+    margin-top: 0 !important;
+}
+
+.navbar.navbar-absolute {
+    position: none !important; 
+    width: 100%;
+    padding-top: 0 !important;
+    z-index: 1029;
+}
+
+
+.btn-login {
+    justify-content: flex-end;
+    display: flex;
+    width: 100%;
+    background-color: #f4f3ef;
+}
+
+.protect {
+    position: absolute;
+    justify-content: flex-end;
+    display: flex;
+    width: 100%;
+    background-color: #f4f3ef;
+}
+
+.navbar.navbar-absolute {
+    position: relative !important;
+    margin-top: -3.5em;
+    margin-bottom: 1em;
+    width: 91%;
+}
+
+.footer {
+    margin-top: 3em;
+}
+
+.register{
+    font-size: 9pt;
+}
+
+.card-user .card-body{
+    min-height: 0!important;
 }

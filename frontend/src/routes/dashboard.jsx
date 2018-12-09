@@ -3,6 +3,10 @@ import Dashboard from "../views/Dashboard/Dasboard/Dashboard.jsx";
 import OpenAuction from "../views/Dashboard/OpenAuction/OpenAuction.jsx";
 
 var dashboardRoutes = [
+  {
+    path: "/protected",
+    component: Dashboard
+  },
    {
     path: "/dashboard",
     name: "Menu",
@@ -21,5 +25,6 @@ var dashboardRoutes = [
     icon: "nc-icon nc-single-02",
     component: PersonPage
   },
+  { redirect: true, path: "/", pathTo: "/dashboard", name: "Menu" }
 ];
 export default dashboardRoutes;

@@ -12,14 +12,15 @@ class Dashboard extends Component {
   }
 
   componentDidMount(){
-    axios.get(`http://localhost:3004/participant/`)
+    const participantId = localStorage.getItem('user');
+    axios.get(`http://localhost:3004/item/part/${participantId}`)
     .then(response => {
-        const participant = response.data.participant
+        const participant = response.data.item
         this.setState({ participantLength: participant.length });
         console.log(this.state.participantLength);
     });
 
-    axios.get(`http://localhost:3004/auction/`)
+    axios.get(`http://localhost:3004/auction/open`)
     .then(response => {
         const auction = response.data.auction
         this.setState({ auctionLength: auction.length });

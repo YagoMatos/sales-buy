@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from 'axios';
+import { Redirect } from 'react-router-dom';
 
 import {
     Modal, 
@@ -25,36 +26,15 @@ class TableItemsAble extends Component {
         salesman: this.props.salesman,
         description: this.props.description,
         id: this.props.id,
+        idItem: this.props.idItem,
+        participantName: this.props.participantName,
+        redictSuccessful: false
     };
     
     toggle() {
         this.setState({
           modal: !this.state.modal
         });
-    }
-    
-    editAuction(){
-        const itemDescription = this.state.description;
-        const itemName = this.state.title;
-        const value = this.state.value;
-        const salesman = this.state.salesman;
-        const itemId = this.state.id;
-        console.log(itemId);
-
-        const auction = {
-            itemDescription,
-            itemName,
-            value,
-            salesman,
-            itemId
-        };
-
-        axios.put(`http://localhost:3004/auction/${auction}`, auction)
-            .then(response => {
-                alert("sucess");
-                window.location = "auction"
-                console.log(response.data);
-        })
     }
     
     cancelAuction(){
@@ -84,9 +64,8 @@ class TableItemsAble extends Component {
         })
         axios.put(`http://localhost:3004/item/${id}`, item)
         .then(response => {
-            alert("sucess");
-            window.location = "auction"
-            console.log(response.data);
+            alert("Leilão Cancelado com Sucesso!");
+            this.setState({ redictSuccessful: true })
         })
     }
 
@@ -111,10 +90,11 @@ class TableItemsAble extends Component {
                         value={this.props.value}
                         salesman={this.props.salesman}
                         description={this.props.description}
-                        idItem={this.props.idItem}
+                        idItem={this.state.idItem}
+                        participantName={this.state.participantName}
+                        participantId={this.props.participantId}
                     />
                 </td>
-
             </tr>
   
             <Modal isOpen={this.state.modal} toggle={() => this.toggle()} className={this.props.className}>
@@ -175,6 +155,19 @@ class TableItemsAble extends Component {
                       </FormGroup>
                   </Col>
                 </Row>
+                <Row>
+                  <Col md={12}>
+                    <FormGroup> 
+                        <Label>Nome do Participante</Label>
+                          <Input 
+                              type="text"
+                              disabled
+                              value={this.state.participantName}
+                              >
+                            </Input>
+                      </FormGroup>
+                  </Col>
+                </Row>
             </Form>
           </ModalBody>
           <ModalFooter>
@@ -182,6 +175,9 @@ class TableItemsAble extends Component {
             <Button color="secondary" onClick={() => this.toggle()}>Cancelar</Button>
           </ModalFooter>
         </Modal>
+        { this.state.redictSuccessful === true && (
+            <Redirect to="/" />
+        )}
         </tbody>
     );
   }

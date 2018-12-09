@@ -17,7 +17,7 @@ class OpenAuction extends Component {
     constructor () {
         super()
         this.state = {
-            auctionOpen: []
+            auctionOpen: [],
         }
       }
 
@@ -66,6 +66,7 @@ class OpenAuction extends Component {
                                     id={auc._id}
                                     idItem={auc.itemId}
                                     isAuction={auc.isAuction}
+                                    participantId={this.state.participantId}
                                     clicked={() => this.itemClicked(auc._id)}
                                 />
                                 )
