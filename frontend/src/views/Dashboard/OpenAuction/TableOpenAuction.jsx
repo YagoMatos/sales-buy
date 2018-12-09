@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
+import FormatCurrency from 'react-format-currency';
 
 import {
     Modal, 
@@ -50,9 +51,9 @@ class TableItemsAble extends Component {
         });
     }
 
-    changeValue(event){
+    changeValue(values){
         this.setState({
-            valueParticipant: event.target.value
+            valueParticipant: values.value
         })
     }
     
@@ -171,13 +172,11 @@ class TableItemsAble extends Component {
                     <Col md={6} xs={12}>
                         <FormGroup> 
                             <Label>Seu Valor</Label>
-                            <Input 
-                                type="number" 
-                                name="value" 
+                            <FormatCurrency currency="BRL" 
+                                placeholder="0.00" 
+                                className="form-control" 
                                 value={this.state.valueParticipant}
-                                placeholder="Valor" 
-                                onChange={(event) => this.changeValue(event)}
-                                />
+                                onChange={(values) => this.changeValue(values)} />
                         </FormGroup>
                         </Col>
                         <Col md={6}>

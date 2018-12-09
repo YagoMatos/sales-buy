@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
+import FormatCurrency from 'react-format-currency';
 
 import { 
     Button, 
@@ -98,12 +99,11 @@ class ModalSchedule extends React.Component {
                 <Col md={6} xs={12}>
                     <FormGroup> 
                         <Label>Valor</Label>
-                        <Input 
-                            type="number" 
-                            name="value" 
-                            value={this.state.value}
-                            onChange={(event) => this.setState({ value: event.target.value })}
-                            placeholder="Valor" />
+                        <FormatCurrency currency="BRL" 
+                          placeholder="0.00" 
+                          className="form-control" 
+                          value={this.state.value}
+                          onChange={(values) => this.setState({ value: values.value })} />
                     </FormGroup>
                     </Col>
                     <Col md={6}>
