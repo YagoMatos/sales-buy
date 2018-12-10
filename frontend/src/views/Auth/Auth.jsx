@@ -94,12 +94,12 @@ class Auth extends Component {
             this.state.cpf === '' || 
             this.state.celular === '' || 
             this.state.nome === '' || 
-            this.state.endereco === '' ||
+            this.state.end === '' ||
             this.state.cpf.length < 11 || this.state.celular.length < 9
         ){
             alert('Preencha os campos corretamente!')
         } else{
-                alert('Preencha os campos corretamente!')
+
                 const name = this.state.nome;
                 const email = this.state.email;
                 const cpf = this.state.cpf;
@@ -119,10 +119,10 @@ class Auth extends Component {
                 axios.post('http://localhost:3004/participant/register', participant)
                     .then(response => {
                         console.log(response.data);
-                        alert("sucess");
+                        alert("Conta criada cm sucesso!");
                         this.setState({ loginMode: true})
                     })
-                    .catch((error) => { alert("Desculpe! Tente mais tarde!");
+                    .catch((error) => { alert("Participante já cadastrado!");
                 });
             }
     }
