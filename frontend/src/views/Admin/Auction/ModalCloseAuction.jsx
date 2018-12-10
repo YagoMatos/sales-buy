@@ -37,7 +37,11 @@ class ModalSchedule extends Component {
   }
 
   closeAuction(){
-    const auctioneer = {
+    console.log(this.props.participantName )
+    if( this.props.participantName === undefined || this.props.participantName === '' ){
+      alert('Não é possivel fechar o Lelão no momento!')
+    } else {
+      const auctioneer = {
         password: this.state.password,
         email: "test@test.com"
     };
@@ -105,6 +109,7 @@ class ModalSchedule extends Component {
             alert('Senha inválida')
           }
       }).catch((error) => alert("Desculpe tente mais tarde"));
+    }
  }
 
   render() {
