@@ -9,7 +9,7 @@
     z-index: 1;
     position: absolute;
     width: 100%;
-    min-height: 669px;
+    min-height: 100vh;
     flex-direction: column;
 }
 
